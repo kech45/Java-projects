@@ -22,7 +22,7 @@ public final class Bicycle extends Vehicle
 
         if(Duration.between(startOfRent, endOfRent).compareTo(Duration.ofDays(7)) >= 0)
         {
-            throw new InvalidRentingPeriodException("Duration is longer than 1 week!");
+            throw new InvalidRentingPeriodException("Duration cannot be longer than 1 week!");
         }
 
         long hours = getHours(startOfRent, endOfRent);
@@ -33,12 +33,6 @@ public final class Bicycle extends Vehicle
         if(minutes > 0)
         {
             hours +=1;
-        }
-
-        if (hours == 24)
-        {
-            days += 1;
-            hours = 0;
         }
 
         return days*getPricePerDay() + hours*getPricePerHour();

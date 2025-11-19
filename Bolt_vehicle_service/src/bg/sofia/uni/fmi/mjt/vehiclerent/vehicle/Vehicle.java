@@ -67,36 +67,51 @@ public sealed abstract class Vehicle permits Bicycle, Car, Caravan
         this.currentRentStart = currentRentStart;
     }
 
-    public void rent(Driver driver, LocalDateTime startRentTime) {
-        if (driver == null || startRentTime == null) {
+    public void rent(Driver driver, LocalDateTime currentRentStart) {
+        if (driver == null || currentRentStart == null)
+        {
             throw new IllegalArgumentException("Arguments cannot be null!");
         }
 
-        if (this.getCurrentDriver() != null || this.getCurrentDriver() == driver) {
-            throw new VehicleAlreadyRentedException("Vehicle is already rented!");
+        if (this.getCurrentDriver() != null)
+        {
+            if(this.getCurrentDriver() == driver)
+            {
+                throw new VehicleAlreadyRentedException("Vehicle is rented by the same driver");
+            }
+            else
+            {
+                throw new VehicleAlreadyRentedException("Vehicle is already rented by another driver!");
+            }
         }
 
         setCurrentDriver(driver);
         setCurrentRentStart(currentRentStart);
     }
 
-    public void returnBack(LocalDateTime rentalEnd) throws InvalidRentingPeriodException {
-        if (rentalEnd == null) {
+    public double returnBack(LocalDateTime rentalEnd) throws InvalidRentingPeriodException
+    {
+        if (rentalEnd == null)
+        {
             throw new IllegalArgumentException("Rental end time is null!");
         }
 
-        if (currentDriver == null) {
+        if (currentDriver == null)
+        {
             throw new VehicleNotRentedException("Vehicle is not rented!");
         }
 
-        if (rentalEnd.isBefore(this.getCurrentRentStart())) {
+        if (rentalEnd.isBefore(this.getCurrentRentStart()))
+        {
             throw new InvalidRentingPeriodException("Rental end is before rental start!");
         }
 
-        calculateRentalPrice(this.getCurrentRentStart(), rentalEnd);
+        double rentalPrice = calculateRentalPrice(this.getCurrentRentStart(), rentalEnd);
 
         setCurrentDriver(null);
         setCurrentRentStart(null);
+
+        return  rentalPrice;
     }
 
     public long getDays(LocalDateTime startOfRent, LocalDateTime endOfRent)

@@ -11,7 +11,7 @@ public final class Car extends Vehicle
     private final int numberOfSeats;
     private double pricePerWeek;
 
-    public Car(String id, String model, FuelType fuelType, int numberOfSeats, double pricePerDay, double pricePerHour, double pricePerWeek)
+    public Car(String id, String model, FuelType fuelType, int numberOfSeats, double pricePerWeek, double pricePerDay, double pricePerHour)
     {
         super(id, model, pricePerDay, pricePerHour);
         this.fuelType = fuelType;
